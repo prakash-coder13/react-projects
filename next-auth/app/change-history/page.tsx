@@ -1,4 +1,14 @@
+import ChangeLog from "@/components/change-log"
+import Code from "@/components/code-block";
+import changelog from "@/data/changelog";
+import { nanoid } from "nanoid";
+import { useMemo } from "react";
 const ChangeHistoryPage = () => {
+
+    const changes = changelog;
+    const changesWithId = useMemo(
+        ()=> changes.map(change => ({...change, id: nanoid()})), [changes]
+    )
     return ( 
         <>
         <div>
@@ -14,12 +24,12 @@ const ChangeHistoryPage = () => {
         </div>
         <div className="mt-12">
             Created a regular Next.js project using the command 
-            <code className='border p-1 mx-1'>npx create-next-app@latest</code>
+             <Code>npx create-next-app@latest</Code>
             and selected, Typescript, Tailwind, no src folder. The version of current Next.js is 15
         </div>
         <div>
-            The project can be learn with first doing <code className='border p-1 mx-1'> npm i </code> after change directory to the new project folder created by 
-            followed by the create-next-app command and then <code className='border p-1 mx-1'> npm run dev</code> that builds and runs the application on <i> http://localhost:3000</i>
+            The project can be learn with first doing <Code> npm i </Code> after change directory to the new project folder created by 
+            followed by the create-next-app command and then <Code> npm run dev</Code> that builds and runs the application on <i> http://localhost:3000</i>
         </div>
 
         <div>
@@ -30,9 +40,19 @@ const ChangeHistoryPage = () => {
         </div>
 
         <div>
-            Currently i m adding all these change logs as <code> div elements</code> and I want to create a 
+            Currently i m adding all these change logs as <Code> div</Code> elementsand I want to create a 
             component to render a change.
         </div>
+
+       {changesWithId.map((changeWithId)=>{
+         const {id, ...change} = changeWithId;
+         return <ChangeLog {...change} key={id}></ChangeLog>
+       })}
+        
+    
+            
+
+        
 
 
         </>
