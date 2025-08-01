@@ -18,15 +18,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { passwordMatchSchema } from "@/validations/password-match-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
 
 const formSchema = z.object({
-  email: z.string().min(5 , { error: "Enter atleaset 5 characters"}),
-  password: z.string().min(5, "Minimum 5 characters required"),
-  passwordConfirm: z.string(),
-});
+  email: z.email()
+}).and(passwordMatchSchema);
 const Register = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -42,7 +41,7 @@ const Register = () => {
   };
   return (
     <main className=" flex flex-col gap-8 justify-center items-center min-h-screen">
-      <Card className="w-[450px] min-w-[350px]">
+      <Card className="w-[350px] min-w-[350px]">
         <CardHeader>
           <CardTitle>Register</CardTitle>
 
@@ -80,7 +79,7 @@ const Register = () => {
                         placeholder="set a strong password"
                       ></Input>
                     </FormControl>
-               
+                    <FormMessage/>
                   </FormItem>
 
                 )}
@@ -91,13 +90,14 @@ const Register = () => {
                 name="passwordConfirm"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel >Confirm Passowrd</FormLabel>
+                    <FormLabel >Confirm Password</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         placeholder="Confirm your password"
                       ></Input>
                     </FormControl>
+                    <FormMessage/>
                   </FormItem>
                 )}
               ></FormField> }
